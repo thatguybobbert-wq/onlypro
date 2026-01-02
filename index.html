@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OnlyPro - Fortnite Draft Server</title>
+    <meta name="description" content="drafts. active vcs. money. join now.">
+    <meta property="og:title" content="OnlyPro - Fortnite Draft Server">
+    <meta property="og:description" content="drafts. active vcs. money. join now.">
+    <meta property="og:image" content="server.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://discord.gg/onlypro">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OnlyPro - Fortnite Draft Server">
+    <meta name="twitter:description" content="drafts. active vcs. money. join now.">
+    <meta name="twitter:image" content="server.png">
+    <link rel="icon" type="image/png" href="onlypro.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Syne:wght@700&display=swap" rel="stylesheet">
@@ -30,8 +41,14 @@
             animation: bg-pulse 6s ease-in-out infinite;
         }
 
-        .bounce150 {
-            animation: bounce150 0.4s ease-in-out infinite;
+        .bounce117 {
+            animation: bounce117 0.512s cubic-bezier(0.4, 0.02, 0.2, 0.95) infinite;
+            will-change: transform;
+            transform: translateZ(0);
+        }
+
+        .bounce117-warmup {
+            animation: bounce117Warmup 0.512s cubic-bezier(0.4, 0.02, 0.2, 0.95) infinite;
             will-change: transform;
             transform: translateZ(0);
         }
@@ -194,10 +211,17 @@
             100% { transform: translateX(-50%); }
         }
 
-        @keyframes bounce150 {
+        @keyframes bounce117 {
             0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-            35% { transform: translate3d(0, -2px, 0) scale(1.005); }
-            70% { transform: translate3d(0, 0, 0) scale(1); }
+            20% { transform: translate3d(0, -12px, 0) scale(1.06); }
+            45% { transform: translate3d(0, 4px, 0) scale(0.995); }
+            70% { transform: translate3d(0, -6px, 0) scale(1.02); }
+        }
+
+        @keyframes bounce117Warmup {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+            30% { transform: translate3d(0, -2px, 0) scale(1.005); }
+            60% { transform: translate3d(0, 1px, 0) scale(0.999); }
         }
 
         @keyframes bg-pulse {
@@ -319,17 +343,24 @@
                 overlay.style.opacity = '0';
                 overlay.style.pointerEvents = 'none';
                 setTimeout(() => overlay.remove(), 300);
-                audio.currentTime = 16;
+                audio.currentTime = 29;
                 audio.play().catch(() => {});
                 page && page.classList.remove('blurred');
 
                 const bounceTargets = document.querySelectorAll(
-                    '#page .top-badge .emoji, #page .top-badge .badge-img, #page .wrap, #page .tagline, #page .socials, #page .social, #page .side-img, #page .side-label'
+                    '#page .top-badge .emoji, #page .top-badge .badge-img, #page .wrap, #page .tagline, #page .side-img, #page .side-label'
                 );
                 bounceTargets.forEach((el) => {
-                    el.classList.add('bounce150');
-                    el.style.animationDelay = `${Math.random() * 0.4}s`;
+                    el.classList.add('bounce117-warmup');
+                    el.style.animationDelay = '0s';
                 });
+
+                setTimeout(() => {
+                    bounceTargets.forEach((el) => {
+                        el.classList.remove('bounce117-warmup');
+                        el.classList.add('bounce117');
+                    });
+                }, 3000);
             };
 
             btn.addEventListener('click', start, { once: true });
